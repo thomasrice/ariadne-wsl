@@ -1,0 +1,65 @@
+# DisplayName: Forest Glade
+format = """\
+[](bg:#1A1B26 fg:#9ECE6A)\
+[ ](bg:#9ECE6A fg:#1A1B26)\
+[](fg:#9ECE6A bg:#73DACA)\
+$directory\
+[](fg:#73DACA bg:#E0AF68)\
+$git_branch\
+$git_status\
+$git_metrics\
+[](fg:#E0AF68 bg:#1A1B26)\
+$python\
+$nodejs
+$character\
+"""
+
+[python]
+format = '[ $symbol$virtualenv ]($style)'
+style = "fg:#BB9AF7 bg:#1A1B26"
+
+[nodejs]
+format = '[ $symbol$version ]($style)'
+style = "fg:#9ECE6A bg:#1A1B26"
+
+[directory]
+format = "[  $path ]($style)"
+style = "fg:#1A1B26 bg:#73DACA"
+
+[git_branch]
+format = '[ $symbol$branch(:$remote_branch) ]($style)'
+symbol = " "
+style = "fg:#1A1B26 bg:#E0AF68"
+
+[git_status]
+format = '([$all_status$ahead_behind]($style))'
+style = 'bold fg:#1A1B26 bg:#E0AF68'
+conflicted = ' '
+ahead = '⇡${count} '
+behind = '⇣${count} '
+diverged = '⇕${ahead_count}⇣${behind_count} '
+untracked = ' '
+stashed = ' '
+modified = '󰷉 '
+staged = ' '
+renamed = ' '
+deleted = ' '
+up_to_date = ''
+
+[git_metrics]
+format = "([+$added ]($added_style))[]($added_style)([-$deleted ]($deleted_style))"
+added_style = "fg:#9ECE6A bg:#E0AF68"
+deleted_style = "fg:#F7768E bg:#E0AF68"
+disabled = false
+
+[hg_branch]
+format = "[ $symbol$branch ]($style)"
+symbol = " "
+
+[cmd_duration]
+format = "[  $duration ]($style)"
+style = "fg:bright-white bg:#1A1B26"
+
+[character]
+success_symbol = '[ ➜](bold green) '
+error_symbol = '[ ✗](#F7768E) '

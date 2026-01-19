@@ -1,0 +1,75 @@
+# eza theme bundled with Ariadne WSL bootstrap
+colourful: true
+
+filekinds:
+  directory:
+    foreground: "#61AFEF"
+    is_bold: true
+  symlink:
+    foreground: "#56B6C2"
+  executable:
+    foreground: "#98C379"
+  normal:
+    foreground: "#ABB2BF"
+
+style:
+  time:
+    foreground: "#E5C07B"
+    is_bold: true
+
+extensions:
+  "md":
+    filename:
+      foreground: "#C678DD"
+      is_bold: true
+    icon:
+      glyph: ""
+      foreground: "#C678DD"
+  "py":
+    filename:
+      foreground: "#E5C07B"
+    icon:
+      glyph: ""
+      foreground: "#E5C07B"
+  "js":
+    filename:
+      foreground: "#F1FA8C"
+    icon:
+      glyph: ""
+      foreground: "#F1FA8C"
+  "ts":
+    filename:
+      foreground: "#61AFEF"
+    icon:
+      glyph: ""
+      foreground: "#61AFEF"
+  "json":
+    filename:
+      foreground: "#E5C07B"
+    icon:
+      glyph: ""
+      foreground: "#E5C07B"
+  "yaml":
+    filename:
+      foreground: "#F38BA8"
+    icon:
+      glyph: ""
+      foreground: "#F38BA8"
+  "yml":
+    filename:
+      foreground: "#F38BA8"
+    icon:
+      glyph: ""
+      foreground: "#F38BA8"
+  "sh":
+    filename:
+      foreground: "#98C379"
+    icon:
+      glyph: ""
+      foreground: "#98C379"
+  "toml":
+    filename:
+      foreground: "#E06C75"
+    icon:
+      glyph: ""
+      foreground: "#E06C75"

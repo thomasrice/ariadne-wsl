@@ -1,0 +1,65 @@
+# DisplayName: Ocean Wave
+format = """\
+[](bg:#1E1E2E fg:#89B4FA)\
+[ ](bg:#89B4FA fg:#1E1E2E)\
+[](fg:#89B4FA bg:#74C7EC)\
+$directory\
+[](fg:#74C7EC bg:#F9E2AF)\
+$git_branch\
+$git_status\
+$git_metrics\
+[](fg:#F9E2AF bg:#1E1E2E)\
+$python\
+$nodejs
+$character\
+"""
+
+[python]
+format = '[ $symbol$virtualenv ]($style)'
+style = "fg:#CBA6F7 bg:#1E1E2E"
+
+[nodejs]
+format = '[ $symbol$version ]($style)'
+style = "fg:#A6E3A1 bg:#1E1E2E"
+
+[directory]
+format = "[  $path ]($style)"
+style = "fg:#1E1E2E bg:#74C7EC"
+
+[git_branch]
+format = '[ $symbol$branch(:$remote_branch) ]($style)'
+symbol = " "
+style = "fg:#1E1E2E bg:#F9E2AF"
+
+[git_status]
+format = '([$all_status$ahead_behind]($style))'
+style = 'bold fg:#1E1E2E bg:#F9E2AF'
+conflicted = ' '
+ahead = '⇡${count} '
+behind = '⇣${count} '
+diverged = '⇕${ahead_count}⇣${behind_count} '
+untracked = ' '
+stashed = ' '
+modified = '󰷉 '
+staged = ' '
+renamed = ' '
+deleted = ' '
+up_to_date = ''
+
+[git_metrics]
+format = "([+$added ]($added_style))[]($added_style)([-$deleted ]($deleted_style))"
+added_style = "fg:#A6E3A1 bg:#F9E2AF"
+deleted_style = "fg:#F38BA8 bg:#F9E2AF"
+disabled = false
+
+[hg_branch]
+format = "[ $symbol$branch ]($style)"
+symbol = " "
+
+[cmd_duration]
+format = "[  $duration ]($style)"
+style = "fg:bright-white bg:#1E1E2E"
+
+[character]
+success_symbol = '[ ➜](bold green) '
+error_symbol = '[ ✗](#F38BA8) '

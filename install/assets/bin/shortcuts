@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+cyan="\033[36m"
+yellow="\033[33m"
+reset="\033[0m"
+
+printf "${cyan}Ariadne shortcuts:${reset}\n"
+echo
+printf "  ${yellow}%-15s${reset} %s\n" "ls / ll / la" "List files with icons (eza)"
+printf "  ${yellow}%-15s${reset} %s\n" "cd <path>" "Smart directory navigation (zoxide)"
+printf "  ${yellow}%-15s${reset} %s\n" "rg <pattern>" "Fast recursive text search (ripgrep)"
+printf "  ${yellow}%-15s${reset} %s\n" "fd <pattern>" "Fast file finder"
+printf "  ${yellow}%-15s${reset} %s\n" "ff" "Fuzzy file finder (fzf)"
+printf "  ${yellow}%-15s${reset} %s\n" "nf" "Fuzzy find then open in neovim"
+printf "  ${yellow}%-15s${reset} %s\n" "n <file>" "Open file in neovim"
+printf "  ${yellow}%-15s${reset} %s\n" "lg" "LazyGit - terminal git UI"
+printf "  ${yellow}%-15s${reset} %s\n" "more <file>" "View file with syntax highlighting (bat)"
+printf "  ${yellow}%-15s${reset} %s\n" "exp" "Open current directory in Windows Explorer"
+echo
+printf "${cyan}Ariadne commands:${reset}\n"
+echo
+printf "  ${yellow}%-15s${reset} %s\n" "ari-theme" "Change prompt colour theme"
+printf "  ${yellow}%-15s${reset} %s\n" "shortcuts" "Show this list"
+echo
+printf "${cyan}Documentation:${reset} https://thomasrice.com/ariadne\n"

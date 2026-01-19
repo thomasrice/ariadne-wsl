@@ -1,0 +1,65 @@
+# DisplayName: Sunset Blaze
+format = """\
+[](bg:#282A36 fg:#FF79C6)\
+[ ](bg:#FF79C6 fg:#282A36)\
+[](fg:#FF79C6 bg:#FFB86C)\
+$directory\
+[](fg:#FFB86C bg:#F1FA8C)\
+$git_branch\
+$git_status\
+$git_metrics\
+[](fg:#F1FA8C bg:#282A36)\
+$python\
+$nodejs
+$character\
+"""
+
+[python]
+format = '[ $symbol$virtualenv ]($style)'
+style = "fg:#BD93F9 bg:#282A36"
+
+[nodejs]
+format = '[ $symbol$version ]($style)'
+style = "fg:#50FA7B bg:#282A36"
+
+[directory]
+format = "[  $path ]($style)"
+style = "fg:#282A36 bg:#FFB86C"
+
+[git_branch]
+format = '[ $symbol$branch(:$remote_branch) ]($style)'
+symbol = " "
+style = "fg:#282A36 bg:#F1FA8C"
+
+[git_status]
+format = '([$all_status$ahead_behind]($style))'
+style = 'bold fg:#282A36 bg:#F1FA8C'
+conflicted = ' '
+ahead = '⇡${count} '
+behind = '⇣${count} '
+diverged = '⇕${ahead_count}⇣${behind_count} '
+untracked = ' '
+stashed = ' '
+modified = '󰷉 '
+staged = ' '
+renamed = ' '
+deleted = ' '
+up_to_date = ''
+
+[git_metrics]
+format = "([+$added ]($added_style))[]($added_style)([-$deleted ]($deleted_style))"
+added_style = "fg:#50FA7B bg:#F1FA8C"
+deleted_style = "fg:#FF5555 bg:#F1FA8C"
+disabled = false
+
+[hg_branch]
+format = "[ $symbol$branch ]($style)"
+symbol = " "
+
+[cmd_duration]
+format = "[  $duration ]($style)"
+style = "fg:bright-white bg:#282A36"
+
+[character]
+success_symbol = '[ ➜](bold green) '
+error_symbol = '[ ✗](#FF5555) '

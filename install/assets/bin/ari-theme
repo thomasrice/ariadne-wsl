@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+THEME_ROOT="$HOME/.local/share/ariadne/starship-themes"
+TARGET_CONFIG="$HOME/.config/starship.toml"
+CURRENT_FILE="$THEME_ROOT/.current"
+
+ensure_theme_root() {
+  if [ ! -d "$THEME_ROOT" ]; then
+    echo "Theme directory not found at $THEME_ROOT." >&2
+    echo "Run the Ariadne installer again to populate starship themes." >&2
+    exit 1
+  fi
+}
+
+render_preview() {
+  local file="$1" mark="$2" key="$3"
+  python3 - "$file" "$mark" "$key" <<'PY'
+import sys, re
+
+path, mark, key = sys.argv[1:4]
+with open(path, 'r', encoding='utf-8') as fh:
+    data = fh.read()
+
+def color(pattern):
+    m = re.search(pattern, data, re.MULTILINE)
+    return '#' + m.group(1) if m else '#000000'
+
+def style(section):
+    m = re.search(rf'\[{section}\][\s\S]*?style\s*=\s*"([^"]+)"', data)
+    if not m:
+        return '#000000', '#FFFFFF'
+    style_str = m.group(1)
+    bg = re.search(r'bg:#([0-9A-Fa-f]{6})', style_str)
+    fg = re.search(r'fg:#([0-9A-Fa-f]{6})', style_str)
+    return ('#' + bg.group(1) if bg else '#000000',
+            '#' + fg.group(1) if fg else '#FFFFFF')
+
+label = re.search(r'#\s*DisplayName:\s*(.+)', data)
+label = label.group(1).strip() if label else key
+
+base_bg = color(r'\[\]\(bg:#([0-9A-Fa-f]{6})')
+accent_fg = color(r'\[\]\(bg:#[0-9A-Fa-f]{6} fg:#([0-9A-Fa-f]{6})')
+accent_bg = color(r'\[ \]\(bg:#([0-9A-Fa-f]{6})')
+seg2_bg, seg2_fg = style('directory')
+seg3_bg, seg3_fg = style('git_branch')
+
+def rgb(hex_code):
+    hex_code = hex_code.lstrip('#')
+    return tuple(int(hex_code[i:i+2], 16) for i in (0, 2, 4))
+
+def span(bg, fg, text):
+    br, bgc, bb = rgb(bg)
+    fr, fgc, fb = rgb(fg)
+    return f"\033[48;2;{br};{bgc};{bb}m\033[38;2;{fr};{fgc};{fb}m{text}"
+
+line = ''.join([
+    span(base_bg, accent_fg, ''),
+    span(accent_bg, base_bg, ''),
+    span(accent_bg, '#FFFFFF', ' ~ '),
+    span(seg2_bg, accent_bg, ''),
+    span(seg2_bg, seg2_fg, '  projects '),
+    span(seg3_bg, seg2_bg, ''),
+    span(seg3_bg, seg3_fg, '  main  '),
+    span(base_bg, seg3_bg, ''),
+    '\033[0m'
+])
+
+print(f"{mark} {label} ({key})")
+print(f"  {line}\033[0m")
+PY
+}
+
+list_themes() {
+  ensure_theme_root
+  local current=""
+  if [ -f "$CURRENT_FILE" ]; then
+    current=$(<"$CURRENT_FILE")
+  fi
+
+  echo "Available Ariadne themes:"
+  shopt -s nullglob
+  local files=("$THEME_ROOT"/*.toml)
+  if [ ${#files[@]} -eq 0 ]; then
+    echo "  (none found)"
+    return
+  fi
+
+  local file key label mark
+  for file in "${files[@]}"; do
+    key="$(basename "$file" .toml)"
+    mark=" "
+    if [ "$key" = "$current" ]; then
+      mark="*"
+    fi
+    render_preview "$file" "$mark" "$key"
+    echo
+  done
+}
+
+apply_theme() {
+  ensure_theme_root
+  local requested="$1"
+  local key="${requested,,}"
+  key="${key// /-}"
+  local file="$THEME_ROOT/$key.toml"
+
+  if [ ! -f "$file" ]; then
+    echo "Unknown theme: $requested" >&2
+    echo >&2
+    list_themes >&2
+    exit 1
+  fi
+
+  mkdir -p "$(dirname "$TARGET_CONFIG")"
+  install -m 0644 "$file" "$TARGET_CONFIG"
+  echo "$key" > "$CURRENT_FILE"
+
+  local label="$(grep -m1 '^# DisplayName:' "$file" | cut -d':' -f2- | sed 's/^ *//')"
+  echo "Applied theme: ${label:-$key}"
+  render_preview "$file" "*" "$key"
+}
+
+if [ $# -eq 0 ] || [ "$1" = "list" ]; then
+  list_themes
+  exit 0
+fi
+
+case "$1" in
+  -h|--help|help)
+    cat <<'USAGE'
+Usage: ari-theme [list]|<theme>
+  list        Show available themes and highlight the current selection
+  <theme>     Apply the specified theme (use the key shown in 'ari-theme list')
+USAGE
+    exit 0
+    ;;
+  *)
+    apply_theme "$1"
+    ;;
+esac

@@ -1,0 +1,65 @@
+# DisplayName: Midnight Aurora
+format = """\
+[](bg:#0D1117 fg:#58A6FF)\
+[ ](bg:#58A6FF fg:#0D1117)\
+[](fg:#58A6FF bg:#79C0FF)\
+$directory\
+[](fg:#79C0FF bg:#7EE787)\
+$git_branch\
+$git_status\
+$git_metrics\
+[](fg:#7EE787 bg:#0D1117)\
+$python\
+$nodejs
+$character\
+"""
+
+[python]
+format = '[ $symbol$virtualenv ]($style)'
+style = "fg:#D2A8FF bg:#0D1117"
+
+[nodejs]
+format = '[ $symbol$version ]($style)'
+style = "fg:#7EE787 bg:#0D1117"
+
+[directory]
+format = "[  $path ]($style)"
+style = "fg:#0D1117 bg:#79C0FF"
+
+[git_branch]
+format = '[ $symbol$branch(:$remote_branch) ]($style)'
+symbol = " "
+style = "fg:#0D1117 bg:#7EE787"
+
+[git_status]
+format = '([$all_status$ahead_behind]($style))'
+style = 'bold fg:#0D1117 bg:#7EE787'
+conflicted = ' '
+ahead = '⇡${count} '
+behind = '⇣${count} '
+diverged = '⇕${ahead_count}⇣${behind_count} '
+untracked = ' '
+stashed = ' '
+modified = '󰷉 '
+staged = ' '
+renamed = ' '
+deleted = ' '
+up_to_date = ''
+
+[git_metrics]
+format = "([+$added ]($added_style))[]($added_style)([-$deleted ]($deleted_style))"
+added_style = "fg:#3FB950 bg:#7EE787"
+deleted_style = "fg:#F85149 bg:#7EE787"
+disabled = false
+
+[hg_branch]
+format = "[ $symbol$branch ]($style)"
+symbol = " "
+
+[cmd_duration]
+format = "[  $duration ]($style)"
+style = "fg:bright-white bg:#0D1117"
+
+[character]
+success_symbol = '[ ➜](bold green) '
+error_symbol = '[ ✗](#F85149) '
