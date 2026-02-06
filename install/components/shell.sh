@@ -3,7 +3,14 @@
 # Starship prompt installer (official script wrapper)
 install_starship() {
   colour_echo cyan "Installing Starship prompt..."
-  curl -sS https://starship.rs/install.sh | sh -s -- -y
+  # Suppress the "follow these steps" output - we handle bashrc setup ourselves
+  curl -sS https://starship.rs/install.sh | sh -s -- -y >/dev/null 2>&1
+  if command -v starship >/dev/null 2>&1; then
+    colour_echo green "Starship installed!"
+  else
+    colour_echo yellow "Starship installation may have failed"
+    return 1
+  fi
 }
 
 # Copy bundled Starship configuration
@@ -137,6 +144,7 @@ EOF
   # Common aliases
   add_or_replace_alias n "nvim" "$BASHRC"
   add_or_replace_alias exp "explorer.exe ." "$BASHRC"
+  add_or_replace_alias open "explorer.exe" "$BASHRC"
 
   append_once 'export LESS="-R"' "$BASHRC"
 

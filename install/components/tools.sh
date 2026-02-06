@@ -17,6 +17,8 @@ setup_bat() {
   # Build cache if batcat is available
   if command -v batcat >/dev/null 2>&1; then
     batcat cache --build >/dev/null 2>&1 || true
+    # Alias cat to batcat (with plain style for piping)
+    add_or_replace_alias cat "batcat --paging=never" "$BASHRC"
   fi
 
   # Create more function using bat

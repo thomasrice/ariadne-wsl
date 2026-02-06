@@ -17,5 +17,5 @@ cat <<'BANNER'
                ███    ███
 BANNER
 printf '%s' "$RESET"
-printf '\nType %sshortcuts%s for quick commands, or visit %shttps://thomasrice.com/ariadne%s\n\n' \
+printf '\nType %sshortcuts%s for quick commands, or visit %shttps://www.ariadne-wsl.com%s\n\n' \
   "$YELLOW" "$RESET" "$CYAN" "$RESET"

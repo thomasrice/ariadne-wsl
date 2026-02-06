@@ -15,7 +15,10 @@ TOOLS=(
   "neovim|neovim|Modern vim editor|ON"
   "lazygit|LazyGit|Terminal UI for git|ON"
   "python|Python tools|uv + poetry for Python dev|OFF"
-  "node|Node.js|Node.js 20 LTS|OFF"
+  "node|Node.js|Node.js 20 LTS (needed for AI tools)|OFF"
+  "claude-code|Claude Code|Anthropic's AI coding assistant|OFF"
+  "opencode|OpenCode|Open-source AI coding tool|OFF"
+  "codex|Codex CLI|OpenAI's coding assistant|OFF"
 )
 
 # Parse tool definition into variables
