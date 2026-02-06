@@ -1,5 +1,29 @@
 #!/bin/bash
 
+# Install a global npm package, retrying with sudo on permission failures.
+# Args: <npm_package> <expected_binary> <display_name>
+install_npm_global_with_fallback() {
+  local npm_package="$1"
+  local expected_binary="$2"
+  local display_name="$3"
+
+  if ! npm install -g "$npm_package"; then
+    colour_echo yellow "$display_name install failed without elevated permissions. Retrying with sudo..."
+    if ! sudo npm install -g "$npm_package"; then
+      colour_echo yellow "$display_name installation failed"
+      return 1
+    fi
+  fi
+
+  if have "$expected_binary"; then
+    colour_echo green "$display_name installed!"
+    return 0
+  fi
+
+  colour_echo yellow "$display_name installed package but '$expected_binary' was not found on PATH"
+  return 1
+}
+
 # Install Claude Code (Anthropic's AI coding assistant)
 install_claude_code() {
   colour_echo cyan "Installing Claude Code..."
@@ -9,8 +33,7 @@ install_claude_code() {
     return 1
   fi
 
-  if npm install -g @anthropic-ai/claude-code; then
-    colour_echo green "Claude Code installed!"
+  if install_npm_global_with_fallback "@anthropic-ai/claude-code" "claude" "Claude Code"; then
     echo "  Set ANTHROPIC_API_KEY from console.anthropic.com"
     return 0
   else
@@ -44,8 +67,7 @@ install_codex_cli() {
     return 1
   fi
 
-  if npm install -g @openai/codex; then
-    colour_echo green "Codex CLI installed!"
+  if install_npm_global_with_fallback "@openai/codex" "codex" "Codex CLI"; then
     echo "  Set OPENAI_API_KEY from platform.openai.com"
     return 0
   else
