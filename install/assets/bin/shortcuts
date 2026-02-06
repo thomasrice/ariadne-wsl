@@ -22,4 +22,4 @@ echo
 printf "  ${yellow}%-15s${reset} %s\n" "ari-theme" "Change prompt colour theme"
 printf "  ${yellow}%-15s${reset} %s\n" "shortcuts" "Show this list"
 echo
-printf "${cyan}Documentation:${reset} https://thomasrice.com/ariadne\n"
+printf "${cyan}Documentation:${reset} https://www.ariadne-wsl.com\n"

@@ -1,0 +1,55 @@
+name: Shell Checks
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  validate-shell:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Validate bash syntax
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(git ls-files)
+          bash_files=()
+
+          for f in "${files[@]}"; do
+            if [ -f "$f" ] && head -n1 "$f" | grep -Eq '^#!.*(ba)?sh'; then
+              bash_files+=("$f")
+            fi
+          done
+
+          if [ "${#bash_files[@]}" -eq 0 ]; then
+            echo "No shell files found."
+            exit 0
+          fi
+
+          bash -n "${bash_files[@]}"
+
+      - name: Run shellcheck
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(git ls-files)
+          bash_files=()
+
+          for f in "${files[@]}"; do
+            if [ -f "$f" ] && head -n1 "$f" | grep -Eq '^#!.*(ba)?sh'; then
+              bash_files+=("$f")
+            fi
+          done
+
+          if [ "${#bash_files[@]}" -eq 0 ]; then
+            echo "No shell files found."
+            exit 0
+          fi
+
+          shellcheck "${bash_files[@]}"

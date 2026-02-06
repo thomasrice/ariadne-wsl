@@ -6,5 +6,15 @@
 *.swo
 *~
 
+# VS Code
+.vscode/
+
 # Logs
 *.log
+
+# Env and local secrets
+.env
+.env.*
+
+# Local test helper
+bootstrap-local.sh

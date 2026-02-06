@@ -4,7 +4,7 @@
 install_node_tooling() {
   colour_echo cyan "Installing Node.js 20 LTS..."
 
-  local min_version="16.0.0"
+  local min_version="20.0.0"
 
   if command -v node >/dev/null 2>&1; then
     local current

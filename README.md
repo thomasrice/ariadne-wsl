@@ -34,6 +34,13 @@ Ariadne presents a checkbox menu letting you choose which tools to install:
 - Ubuntu 22.04 or later (recommended)
 - A [Nerd Font](https://www.nerdfonts.com/) for icons
 
+## Security Note
+
+Ariadne installs a number of third-party tools from official upstream sources
+(apt repositories, GitHub releases, and vendor install scripts). Review
+`install/components/*.sh` if you want to audit exactly what runs on your
+machine before installation.
+
 ## Themes
 
 Change your prompt colours with:
@@ -68,9 +75,17 @@ After installation, these shortcuts are available:
 | `ari-theme` | Change prompt theme |
 | `shortcuts` | Show available shortcuts |
 
+## Troubleshooting
+
+- If the installer is run via `curl | bash`, it reconnects to your terminal so
+  interactive prompts still work.
+- If command aliases are not visible right away, close and reopen your terminal.
+- AI tools (`claude-code`, `codex`) require Node.js and Ariadne will add Node.js
+  automatically when those are selected.
+
 ## Documentation
 
-Full documentation: [thomasrice.com/ariadne](https://thomasrice.com/ariadne)
+Full documentation: [www.ariadne-wsl.com](https://www.ariadne-wsl.com)
 
 ## License
 
