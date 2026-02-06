@@ -41,9 +41,56 @@ sync_starship_config() {
 # Install eza (modern ls)
 install_eza() {
   colour_echo cyan "Installing eza..."
-  wget -qO eza.tar.gz https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.tar.gz
-  sudo tar xf eza.tar.gz --strip-components=1 -C /usr/local/bin
-  rm -rf eza.tar.gz
+
+  local arch
+  arch="$(uname -m)"
+
+  local suffixes=""
+  case "$arch" in
+    x86_64|amd64)
+      suffixes="x86_64-unknown-linux-gnu"
+      ;;
+    aarch64|arm64)
+      suffixes="aarch64-unknown-linux-gnu"
+      ;;
+    armv7l|armhf)
+      suffixes="arm-unknown-linux-gnueabihf armv7-unknown-linux-gnueabihf"
+      ;;
+    *)
+      colour_echo yellow "Unsupported architecture for eza binary: $arch"
+      return 1
+      ;;
+  esac
+
+  local base_url="https://github.com/eza-community/eza/releases/latest/download"
+  local url=""
+  local suffix
+  for suffix in $suffixes; do
+    local candidate="${base_url}/eza_${suffix}.tar.gz"
+    if curl -fsI "$candidate" >/dev/null 2>&1; then
+      url="$candidate"
+      break
+    fi
+  done
+
+  if [ -z "$url" ]; then
+    colour_echo yellow "Could not find a matching eza release asset for: $arch"
+    return 1
+  fi
+
+  local tmpdir
+  tmpdir="$(mktemp -d)"
+  trap 'rm -rf "$tmpdir"' RETURN
+
+  curl -fsSL "$url" -o "$tmpdir/eza.tar.gz"
+  tar -xzf "$tmpdir/eza.tar.gz" -C "$tmpdir"
+
+  if [ ! -f "$tmpdir/eza" ]; then
+    colour_echo yellow "Downloaded eza archive did not contain an eza binary"
+    return 1
+  fi
+
+  sudo install -m 0755 "$tmpdir/eza" /usr/local/bin/eza
 }
 
 # Copy bundled eza theme

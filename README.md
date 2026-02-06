@@ -7,7 +7,7 @@ Ariadne is a one-command bootstrap for setting up a modern development environme
 ## Quick Start
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/thomasrice/ariadne-wsl/main/bootstrap.sh | bash
+curl -fsSL https://raw.githubusercontent.com/thomasrice/ariadne-wsl/master/bootstrap.sh | bash
 ```
 
 ## What's Installed
